@@ -1,0 +1,55 @@
+body{
+    margin:0px;
+    padding:0px;
+    background-color: rgb(17, 29, 97);
+    font-size:10px;
+    text-align:center;
+    font-weight:bold;
+    font-family:'helvetica neue';
+}
+
+.mainimg {
+    width:700px;
+}
+
+h2 {
+    font-size: 3.5rem;
+    color:white;
+}
+
+.controls {
+    margin:50px;
+    margin-bottom:80px;
+    color:white;
+}
+
+label{
+    font-size:1.5rem;
+    margin-right:0.5rem;
+}
+
+input{
+    margin-right: 5rem;
+}
+
+input.colorpicker {
+    width:100px;
+}
+
+.hl {
+    color: var(--base);
+}
+
+img {
+    padding: var(--spacing);
+    background: var(--base);
+    filter: blur(var(--blur));
+    transform:rotate(var(--rotate));
+}
+
+:root {
+    --base: #ffc600;
+    --spacing: 0px;
+    --blur: 0px;
+    --rotate:0deg;
+}

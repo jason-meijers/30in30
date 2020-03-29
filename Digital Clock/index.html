@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
+    <title>JS Clock</title>
+</head>
+<body style="background-color:rgb(0, 0, 0);">
+    <div class=settings>
+        <div class="settingIcon"></div>
+        <div class="settingsPanel" style="display:none;background-color:rgb(0, 0, 0);">
+        <h2>Settings</h2>
+
+        <div class="settingsItem">
+            <label for="colopicker">Text Color:&nbsp;</label>
+            <input type="color" name="colorpicker" class="colorpicker" value="#31ee50">
+        </div>
+
+        <div class="settingsItem">
+            <label for="darkmode">Darkmode:&nbsp;</label>
+            <label class="switch">
+                <input name="darkmode" type="checkbox" value="dark" checked>
+                <span class="darkmode slider round"></span>
+            </label>
+        </div>
+        </div>
+    </div>
+    <div class="digitalclock">
+        <div class ="timeDisplay">
+            <span class ="timeelements hours1">-</span>
+            <span class ="timeelements hours2">-</span>
+            <span class ="timeelements colon">:</span>
+            <span class ="timeelements minutes1">-</span>
+            <span class ="timeelements minutes2">-</span>
+            <span class ="timeelements colon">:</span>
+            <span class ="timeelements seconds1">-</span>
+            <span class ="timeelements seconds2">-</span>
+            <span class ="timeelements ampm">-</span>
+        </div>
+        <div class="dateDisplay">
+            <span class ="dateelements day">-</span>
+            <span class ="dateelements colon">:</span>
+            <span class ="dateelements date">-</span>
+            <span class ="dateelements slash">/</span>
+            <span class ="dateelements month">-</span>
+            <span class ="dateelements slash">/</span>
+            <span class ="dateelements year">-</span>
+        </div>
+        </div>
+    </div>
+   
+    <script>
+
+    const hours1 = document.querySelector('.hours1');
+    const hours2 = document.querySelector('.hours2');
+    const minutes1 = document.querySelector('.minutes1');
+    const minutes2 = document.querySelector('.minutes2');
+    const seconds1 = document.querySelector('.seconds1');
+    const seconds2 = document.querySelector('.seconds2');
+    const ampm = document.querySelector('.ampm');
+    const day = document.querySelector('.day');
+    const date = document.querySelector('.date');
+    const month = document.querySelector('.month');
+    const year = document.querySelector('.year');
+    const monthList = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    const dayList = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+    
+    async function tellTime() {
+        const now = new Date();
+        //hour1
+        let nowHours1 = now.getHours();
+        if (nowHours1 > 9 && nowHours1 < 13) {
+            hours1.innerHTML = 1;
+        } else {hours1.innerHTML = 0}
+        
+        //hour2
+        let nowHours2 = now.getHours();
+        if (nowHours2 > 12) {
+            hours2.innerHTML = nowHours2-12;
+        } else {hours2.innerHTML = nowHours2.toString()[1];}
+
+        //minute1
+        let nowMinutes1 = now.getMinutes();
+        if (nowMinutes1 < 10) {
+            minutes1.innerHTML = `0`
+        } else {minutes1.innerHTML = nowMinutes1.toString()[0];
+        }
+
+        //minute2
+        let nowMinutes2 = now.getMinutes();
+        if (nowMinutes2 < 10) {
+            minutes2.innerHTML = nowMinutes2.toString()[0];
+        } else {minutes2.innerHTML = nowMinutes2.toString()[1];
+        }
+        
+        //seconds1
+        let nowSeconds1 = now.getSeconds();
+        if (nowSeconds1 < 10) {
+            seconds1.innerHTML = `0`
+        } else {seconds1.innerHTML = nowSeconds1.toString()[0];
+        }
+
+        //seconds2
+        let nowSeconds2 = now.getSeconds();
+        if (nowSeconds2 < 10) {
+            seconds2.innerHTML = nowSeconds2.toString()[0];
+        } else {seconds2.innerHTML = nowSeconds2.toString()[1];
+        }
+        
+        //AMPM
+        const nowAMPM = now.getHours()
+        if (nowAMPM > 12) {
+            ampm.innerHTML = 'PM';
+        } else {ampm.innerHTML = 'AM';
+        }
+
+        //day
+        const nowDay = now.getDay();
+        day.innerHTML = dayList[nowDay];
+        
+        //date
+        const nowDate = now.getDate();
+        date.innerHTML = nowDate;
+        
+        //month
+        const nowMonth = now.getMonth();
+        month.innerHTML = monthList[nowMonth];
+        
+        //year
+        const nowYear = now.getFullYear();
+        year.innerHTML = nowYear;
+    }
+
+    setInterval(tellTime,1000);
+
+
+    //Slider
+
+    const x = document.querySelector(".settingsPanel");
+    const y = document.querySelector(".settingIcon");
+
+    function settingsSlide() {
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+  }
+    }
+
+y.addEventListener("click",settingsSlide);
+
+//change color
+const color = document.querySelector(".colorpicker");
+
+function colorChanger() {
+    document.documentElement.style.setProperty(`--${this.name}`,this.value);
+}
+
+color.addEventListener("change",colorChanger);
+
+
+//DarkMode
+const button = document.querySelector(".darkmode");
+const settingsText = document.querySelector(".settings");
+const settingsIcon = document.querySelector(".settingIcon");
+
+
+function backgroundChanger() {
+    
+    if (document.body.style.backgroundColor === "rgb(0, 0, 0)") {
+        x.style.setProperty('background-color','rgb(255, 255, 255)');
+        document.body.style.setProperty('background-color','rgb(255, 255, 255)')
+        settingsText.style.setProperty('color','black');
+        settingsIcon.style.setProperty('background-image','url("3-bar-menu-black.png")');
+    } else {
+        x.style.setProperty('background-color','rgb(0, 0, 0)');
+        document.body.style.setProperty('background-color','rgb(0, 0, 0)');
+        settingsText.style.setProperty('color','white');
+        settingsIcon.style.setProperty('background-image',"url('3-bar-menu-icon-28.jpg')");
+    }
+}
+
+button.addEventListener("click",backgroundChanger);
+
+</script>
+
+</body>
+</html>

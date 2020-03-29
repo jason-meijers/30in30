@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tip Calculator</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,500&display=swap" rel="stylesheet">
+
+</head>
+<body>
+   <div class="mainContainer">
+       <div class="containerTitle">
+           <h2>Tip Calculator</h2>
+       </div>
+       <div class="containerBody">
+            <div class="containerIntruct">
+                <p>Enter the details of your bill below:</p>
+            </div>
+           <form class="tipCalcForm" onsubmit ="return false">
+           <div class="paramContainer">
+                <div class="paramTitle">Total Cost of Bill:</div>
+                <div class="paramInput">
+                        <span>$</span><input id="billTotal" value="" class="tipInput" type="number" name="billTotal" min="0.01" step="0.01" placeholder="0.00" required/><span>&nbsp;&nbsp;</span>
+                </div>
+           </div>
+           <div class="paramContainer">
+                <div class="paramTitle">Level of Service:</div>
+                <div class="paramInput">
+                        <span>&nbsp;&nbsp;&nbsp;</span><input id="serviceLevel" type="number" class="tipInput" value="" name="serviceLevel" PlaceHolder="Tip Percentage" min="0" required/><span>%</span>
+                        </datalist> 
+                </div>
+           </div>
+           <div class="paramContainer">
+                <div class="paramTitle">Number of People Dining:</div>
+                <div class="paramInput">
+                        <input id="splitting" class="tipInput" type="number" name="billSplit" min="1" value="" step="1" placeholder="1" min="1" required/>
+                </div>
+            </div>
+           <div class="totalContainer">
+                <div class="totalTitle">Tip per Person</div>
+                <div class="totalTitle">Total of Bill & Tip per Person</div>
+                <div class="totalDisplay" id="tipTotal">-</div>
+                <div class="totalDisplay" id="totalTipBill">-</div>
+           </div>
+           
+                <input type="submit" class="submitContainer" value="Calculate Tip!">
+            
+        </form>
+       </div>
+   </div>
+   
+   <script>
+       
+    //getBillInput
+    function getBillInput() {
+        const billTotal = document.querySelector("#billTotal").value;
+            return billTotal;
+            //console.log(billTotal);
+    }
+
+    //getServiceLevel
+    function getServiceLevel() {
+        const tipPercent = document.querySelector("#serviceLevel").value;
+            return tipPercent;
+            //console.log(tipPercent);
+    }
+
+    //getSplitting
+    function getSplitting() {
+        const splitting = document.querySelector("#splitting").value;
+            return splitting;
+            //console.log(splitting);
+    }
+
+    // Calculate Tip
+    function calculateTip() {
+        const rawTip = (getBillInput() * (getServiceLevel()/100))/getSplitting();
+        const tip = rawTip.toFixed(2);
+        return tip;
+    }
+
+    // Calculate Tip + Total
+    function calculateTipTotal() {
+        const rawTotal = parseFloat(calculateTip())+(parseFloat(getBillInput())/getSplitting());
+        const total = rawTotal.toFixed(2);
+        return total;
+    }
+
+    //Calculate Bill on Submit
+    document.querySelector('.submitContainer').onclick = function() {
+        if(getBillInput() !== "" && getBillInput() > 0 && getServiceLevel() !== "" && getServiceLevel() >= 0 && getSplitting() !== "" && getSplitting() > 0) {
+            document.querySelector('#tipTotal').innerHTML = `$${calculateTip()}`;
+            document.querySelector('#totalTipBill').innerHTML = `$${calculateTipTotal()}`;
+        } else {
+            return
+        }
+    };
+
+
+
+   </script>
+
+</body>
+</html>
